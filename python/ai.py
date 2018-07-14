@@ -24,16 +24,15 @@ class AI:
         resources = [(1, 0.1, v) for v in game.resources.regular] + [(1, 2, v) for v in game.resources.silver] + [(10, 0, v) for v in game.resources.gold]
 
         for cell in game.me.cells:
-            target = get_target(cell, resources)
-            
+            target = self.get_target(cell, resources)
 
-            cell.move(resources[target_resource_index][2])
+            cell.move(target)
+
 
     def get_target(self, cell, resources):
         resources_score_distance_ratio = []
 
         for resource in resources:
-            print(resource[2])
             distance = cell.position.distance_to(resource[2])
             ratio = resource[0] / distance
             resources_score_distance_ratio.append(ratio)
