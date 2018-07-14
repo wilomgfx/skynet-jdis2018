@@ -230,6 +230,8 @@ class CellActions:
 
 
 def parse_vec2(obj):
+    if obj["x"] is None or obj["y"] is None:
+        return Vec2(0, 0)
     return Vec2(obj["x"], obj["y"])
 
 

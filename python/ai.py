@@ -25,7 +25,6 @@ class AI:
 
         for cell in game.me.cells:
             target = self.get_target(cell, resources)
-
             cell.move(target)
 
 
