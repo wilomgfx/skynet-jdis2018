@@ -23,7 +23,7 @@ class AI:
 
         print("Tick #{}".format(game.tick))
 
-        resources = [(2, 1, v) for v in game.resources.regular] + [(4, 2, v) for v in game.resources.silver] + [(10, 0, v) for v in game.resources.gold]
+        resources = [(1, 1, v) for v in game.resources.regular] + [(4, 2, v) for v in game.resources.silver] + [(10, 0, v) for v in game.resources.gold]
 
         for cell in game.me.cells:
             target_index, target = self.get_target(cell, resources)
