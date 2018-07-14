@@ -2,6 +2,7 @@
 This is the file that should be used to code your AI.
 """
 import random
+import time
 import math
 from planar import Vec2
 
@@ -22,38 +23,16 @@ class AI:
 
         print("Tick #{}".format(game.tick))
 
-        resources = [(1, 0.1, v) for v in game.resources.regular] + [(25, 2, v) for v in game.resources.silver] + [(10, 0, v) for v in game.resources.gold]
+        resources = [(2, 1, v) for v in game.resources.regular] + [(4, 2, v) for v in game.resources.silver] + [(10, 0, v) for v in game.resources.gold]
 
         for cell in game.me.cells:
             target_index, target = self.get_target(cell, resources)
             del resources[target_index]
 
-            if cell.mass == 100:
-                target = self.shoopdawoop(game.viruses, cell)
-                print(target)
+            if cell.mass >= 100:
+                cell.trade(70)
+            else:
                 cell.move(target)
-                if (target.position - cell.position) == 0:
-                    cell.trade(80)
-                else:
-                    cell.move(target)
-
-            if cell.mass >= 110:
-                viruses  = game.viruses
-
-                while True:
-                    is_colision = False
-                    for virus in viruses:
-                        if self.colision(target, cell, virus):
-                            # print('colision: ' +str(target) + str(cell.position) + str(virus.position))
-                            target_index, target = self.get_target(cell, resources)
-                            del resources[target_index]
-                            is_colision = True
-                            break
-                    if not is_colision:
-                        break
-
-
-            cell.move(target)
 
     def colision(self, target, cell1, cell2):
         u = target
@@ -83,5 +62,5 @@ class AI:
             distance = cell.position.distance_to(virus.position)
             virus_distances.append(distance)
         target_virus_index = virus_distances.index(min(virus_distances))
-        return viruses[target_virus_index]
+        return viruses[target_virus_index].position
 
