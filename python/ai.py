@@ -28,6 +28,15 @@ class AI:
             target_index, target = self.get_target(cell, resources)
             del resources[target_index]
 
+            if cell.mass == 100:
+                target = self.shoopdawoop(game.viruses, cell)
+                print(target)
+                cell.move(target)
+                if (target.position - cell.position) == 0:
+                    cell.trade(80)
+                else:
+                    cell.move(target)
+
             if cell.mass >= 110:
                 viruses  = game.viruses
 
@@ -35,7 +44,7 @@ class AI:
                     is_colision = False
                     for virus in viruses:
                         if self.colision(target, cell, virus):
-                            print('colision: ' +str(target) + str(cell.position) + str(virus.position))
+                            # print('colision: ' +str(target) + str(cell.position) + str(virus.position))
                             target_index, target = self.get_target(cell, resources)
                             del resources[target_index]
                             is_colision = True
@@ -58,7 +67,7 @@ class AI:
 
     def get_target(self, cell, resources):
         resources_score_distance_ratio = []
-        print(resources)
+        # print(resources)
         for resource in resources:
             distance = cell.position.distance_to(resource[2])
             ratio = resource[0] / distance
@@ -67,3 +76,12 @@ class AI:
         target_resource_index = resources_score_distance_ratio.index(max(resources_score_distance_ratio))
 
         return target_resource_index,resources[target_resource_index][2]
+
+    def shoopdawoop(self, viruses: List[Virus], cell: Cell):
+        virus_distances = []
+        for virus in viruses:
+            distance = cell.position.distance_to(virus.position)
+            virus_distances.append(distance)
+        target_virus_index = virus_distances.index(min(virus_distances))
+        return viruses[target_virus_index]
+
